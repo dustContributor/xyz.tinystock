@@ -1,0 +1,55 @@
+script.
+  window.App = $.extend(true, () => {
+    // Definitions required in the whole application
+    const required = [
+      App.types.fetch("orderStates", App.urls.api.order.states)
+    ]
+    // Allow to wait until the definitions are finished
+    return $.when(required)
+  }, (() => {
+    const UrlRoot = function(root, etc) {
+      this.root = root
+      // For convenience, stringifying to the object gives the root url.
+      this.toString = () => {
+        return this.root
+      }
+      // And add sub-routes as needed.
+      if(!etc) {
+        return
+      }
+      // Deconstruct arrays! Yay!
+      for(const [name, value] of Object.entries(etc)) {
+        this[name] = value
+      }
+    }
+    // Factory method because 'new' is icky :P
+    UrlRoot.of = (root, etc) => {
+      return new UrlRoot(root, etc)
+    }
+
+    const urls = {
+      api: {
+        order: UrlRoot.of("#{html.api('order')}", {
+          byCustomer: "#{html.api('order/bycustomer')}",
+          states: "#{html.api('order/states')}"
+        }),
+        customer: UrlRoot.of("#{html.api('customer')}"),
+        component: UrlRoot.of("#{html.api('component')}", {
+          query: "#{html.api('component/query')}"
+        }),
+        orderDetail: UrlRoot.of("#{html.api('orderdetail')}")
+      },
+      content: {
+        order: UrlRoot.of("#{html.content('order')}"),
+        customer: UrlRoot.of("#{html.content('customer')}"),
+        component: UrlRoot.of("#{html.content('component')}"),
+        test: UrlRoot.of("#{html.content('test')}"),
+      }
+    }
+    // Publish the urls
+    return {
+      urls: urls
+    }
+  })())
+  //# sourceURL=/app/context.generated.js
+script(src="assets/app/context.js")

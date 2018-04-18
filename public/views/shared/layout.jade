@@ -1,0 +1,28 @@
+doctype html  
+html(lang='en' style="
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: white;")  
+ head
+   link(rel="stylesheet" href="assets/kendo/2017.3.826/styles/web/kendo.common.core.css")
+   link(rel="stylesheet" href="assets/kendo/2017.3.826/styles/web/kendo.default.css")
+   link(rel="stylesheet" href="assets/jsgrid/1.5.3/jsgrid.css")
+   link(rel="stylesheet" href="assets/jsgrid/1.5.3/jsgrid-theme.css")
+   link(rel="stylesheet" href="assets/site.css")
+   script(src="assets/kendo/2017.3.826/js/jquery.js")
+   script(src="assets/kendo/2017.3.826/js/kendo.ui.core.js")
+   script(src="assets/underscore/1.8.3/underscore.js")
+   script(src="assets/jsgrid/1.5.3/jsgrid.js")
+   script(src="assets/app/alt/jquery.js")
+   script(src="assets/app/alt/jsgrid.js")
+ body(style="
+  height: calc(100% - 2px);
+  margin: 0;
+  padding: 0;
+  border: none;")
+   div.k-widget.k-header(style="text-align: center; margin: 2px; height:80px")
+     h1 tinyStock
+   div(style="height: calc(100% - 90px); margin: 2px; padding: 0;")
+     block content

@@ -1,0 +1,16 @@
+extends ./shared/layout
+block content
+  - var mainMenuId = "id-main-menu"
+  - var mainContainerId = "id-main-container"
+  ul.ts-main-menu(id=mainMenuId)
+  div.k-widget.k-header.ts-section-region(id=mainContainerId)
+  include ./shared/context
+  script(src="#{html.view('home.js')}")
+  script.
+    App().then(() => {
+      App.views.home.render({
+        mainMenuId: "#{mainMenuId}",
+        mainContainerId: "#{mainContainerId}"
+      })
+    })
+    //# sourceURL=/app/views/home.invoke.js

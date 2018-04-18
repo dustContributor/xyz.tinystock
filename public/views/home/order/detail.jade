@@ -1,0 +1,14 @@
+- var orderDetailContainerId = "id-order-detail-container"
+- var orderDetailsId = "id-order-detail-container-details"
+div(id="#{orderDetailContainerId}")
+  div
+    h1(style="margin: 0; display: inline-block;") ORDER DETAIL
+  div.ts-inner-container.ts-lv1
+    div.k-grid.k-widget.k-display-block(id="#{orderDetailsId}")
+  script(src="#{html.view('home/order/detail.js')}")
+  script.
+    App.views.order.detail.render({
+      containerId: "#{orderDetailContainerId}",
+      detailsId: "#{orderDetailsId}"
+    })
+    //# sourceURL=/app/views/order/detail.invoke.js

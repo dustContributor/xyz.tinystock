@@ -1,0 +1,3 @@
+<settings xmlns="http://www.jooq.org/xsd/jooq-runtime-3.9.0.xsd">
+  <executeLogging>true</executeLogging>
+</settings>

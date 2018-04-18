@@ -1,0 +1,11 @@
+div
+  - var containerId = "id-main-component-container"
+  h1(style="margin: 0;") COMPONENTS
+  div.ts-inner-container.ts-lv1
+    div.k-grid.k-widget.k-display-block(id="#{containerId}")
+  script(src="#{html.view('home/component.js')}")
+  script.
+    App.views.component.render({
+      containerId: "#{containerId}"
+    })
+    //# sourceURL=/app/views/component.invoke.js

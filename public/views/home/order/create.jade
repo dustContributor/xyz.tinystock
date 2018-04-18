@@ -1,0 +1,19 @@
+- var orderCreateContainerId = "id-order-create-container"
+- var orderCreateComponentsId = "id-order-create-container-components"
+- var orderCreateToolbarId = "id-order-create-toolbar"
+style.
+  ##{orderCreateToolbarId} {
+    text-align: right;
+  }
+
+  ##{orderCreateToolbarId} > button {
+    margin: 4px;
+  }
+
+div(id="#{orderCreateContainerId}")
+  div
+    h1(style="margin: 0; display: inline-block;") CREATE ORDER
+  div.ts-inner-container.ts-lv1
+    div.k-grid.k-widget.k-display-block(id="#{orderCreateComponentsId}")
+  div.k-content.ts-inner-container.ts-lv1(id="#{orderCreateToolbarId}")
+  script(src="#{html.view('home/order/create.js')}")

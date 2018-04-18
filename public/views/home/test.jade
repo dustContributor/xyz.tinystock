@@ -1,0 +1,12 @@
+div
+  - var testContainerId = "id-main-test-container"
+  h1(style="margin: 0;") TEST
+  div.ts-inner-container.ts-lv1
+    div.k-content(id="#{testContainerId}")
+      input#blah
+  script(src="#{html.view('home/test.js')}")
+  script.
+    App.views.test.render({
+      containerId: "#{testContainerId}"
+    })
+    //# sourceURL=/app/views/test.invoke.js

@@ -1,0 +1,9 @@
+{
+  "esversion" : 6,
+  "asi" : true,
+  "unused" : "strict",
+  "-W014" : false,
+  "-W025" : false,
+  "-W032" : false,
+  "-W098" : false
+}

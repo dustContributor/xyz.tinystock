@@ -1,0 +1,21 @@
+- var customerContainerId = "id-main-customer-container"
+- var customersId = "id-main-customer-container-customers"
+include ./order/create
+div(id="#{customerContainerId}") 
+  h1(style="margin: 0;") CUSTOMERS
+  div.ts-inner-container.ts-lv1
+    div.k-grid.k-widget.k-display-block(id="#{customersId}")  
+  script(src="#{html.view('home/customer.js')}")
+  script.
+    App.views.customer.render({
+      containerId: "#{customerContainerId}",
+      customersId: "#{customersId}",
+      orderCreateContainerId: "#{orderCreateContainerId}",
+      createOrder: App.views.order.create.render({
+        nextContainerId: "#{customerContainerId}",
+        containerId: "#{orderCreateContainerId}",
+        componentsId: "#{orderCreateComponentsId}",
+        toolbarId: "#{orderCreateToolbarId}"
+      })
+    })
+    //# sourceURL=/app/views/customer.invoke.js

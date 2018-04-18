@@ -1,0 +1,1 @@
+mvnDebug jooby:run -Dapplication.debug=5001 -DlogLevel=debug
