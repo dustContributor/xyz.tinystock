@@ -10,8 +10,6 @@ import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 import org.jooq.types.UInteger;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 public final class OrderDetail
 {
 	private static class Shared
@@ -91,8 +89,8 @@ public final class OrderDetail
 										.set( STOCK.QUANTITY, STOCK.QUANTITY.sub( Long.valueOf( model.quantity ) ) )
 										.where( STOCK.ID_COMPONENT.eq( componentId ) )
 										.execute();
-
-								return tr.insertInto( ORDER_DETAIL,
+								// Returns the amount of records inserted.
+								final int mod = tr.insertInto( ORDER_DETAIL,
 										ORDER_DETAIL.ID_ORDER,
 										ORDER_DETAIL.ID_COMPONENT,
 										ORDER_DETAIL.QUANTITY,
@@ -106,10 +104,14 @@ public final class OrderDetail
 														COMPONENT.PRICE.mul( Long.valueOf( model.quantity ) ) )
 														.from( COMPONENT )
 														.where( COMPONENT.ID.eq( componentId ) ) )
-										// Return field by field or all of them together.
-										.returning( ORDER_DETAIL.fields() )
-										.fetch()
-										.map( Get::new );
+										.execute();
+								// If nothing was inserted, something went wrong.
+								return mod < 1 ? new Get[0]
+										: tr.fetchOne( ORDER_DETAIL, ORDER_DETAIL.ID_ORDER
+												.eq( UInteger.valueOf( model.orderId ) )
+												.and( ORDER_DETAIL.ID_COMPONENT
+														.eq( UInteger.valueOf( model.componentId ) ) ) )
+												.map( Get::new );
 							}
 						} );
 					}
