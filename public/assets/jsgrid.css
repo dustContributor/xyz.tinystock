@@ -1,0 +1,16 @@
+/* JSGRID STYLE FIXES */
+
+.jsgrid {
+  border: none;
+}
+
+.jsgrid-selected-row>.jsgrid-cell {
+  background: #f35800;
+  color: white;
+}
+
+/* Remove gray border on the bottom of all grids. */
+
+.jsgrid tr:last-child td {
+  border-bottom: none;
+}

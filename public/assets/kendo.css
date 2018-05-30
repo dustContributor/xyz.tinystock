@@ -1,0 +1,6 @@
+/* KENDO STYLE FIXES */
+
+.k-menu .k-state-hover>.k-link, .k-menu .k-menu-scroll-button:hover {
+  background: #f35800;
+  color: white;
+}
