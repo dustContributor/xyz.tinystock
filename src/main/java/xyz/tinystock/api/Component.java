@@ -6,6 +6,7 @@ import static xyz.tinystock.utils.OpsDb.dslContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jooby.Jooby;
+import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 import org.jooq.types.UInteger;
@@ -70,17 +71,21 @@ public final class Component
 				.get( "/query", req ->
 				{
 					final String code = req.param( "code" ).value( "" );
-
-					if ( StringUtils.isEmpty( code ) )
-					{
-						return OpsHttp.notFound();
-					}
+					final long id = req.param( "id" ).longValue( 0 );
 
 					try ( DSLContext db = dslContext( req ) )
 					{
-						return db
-								.selectFrom( COMPONENT )
-								.where( DSL.upper( COMPONENT.CODE ).contains( OpsString.toUpper( code ) ) )
+						Condition cond = DSL.trueCondition();
+						if ( StringUtils.isNotEmpty( code ) )
+						{
+							cond = cond.and( DSL.upper( COMPONENT.CODE ).contains( OpsString.toUpper( code ) ) );
+						}
+						if ( id > 0 )
+						{
+							cond = cond.and( COMPONENT.ID.eq( UInteger.valueOf( id ) ) );
+						}
+						return db.selectFrom( COMPONENT )
+								.where( cond )
 								.fetch()
 								.map( Get::new );
 					}
