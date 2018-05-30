@@ -6,47 +6,47 @@ App.views.define(() => {
 
     const showCreateOrder = pars.createOrder.show
 
-    const dspars = {
+    const ds = new kendo.data.DataSource({
       transport: App.utils.kendo.toTransport(App.urls.api.customer),
       schema: {
         model: {
-          id: "id",
+          id: 'id',
           fields: App.utils.kendo.toModelDefinition([
-            ["id", "number"],
-            ["name", "string"],
-            ["lastName", "string"],
-            ["address", "string"],
-            ["email", "string"],
-            ["phone", "string"]
+            ['id', 'number'],
+            ['name', 'string'],
+            ['lastName', 'string'],
+            ['address', 'string'],
+            ['email', 'string'],
+            ['phone', 'string']
           ])
         }
       }
-    };
-    const ds = new kendo.data.DataSource(dspars);
+    })
 
     els.customers.jsGrid({
       autoload: true,
       editing: true,
       inserting: true,
-      width: "100%",
-      // css: "",
-      //headercss: "k-grid-header",
+      width: '100%',
+      // css: '',
+      //headercss: 'k-grid-header',
       controller: App.utils.jsGrid.toController(App.urls.api.customer),
       fields: App.utils.jsGrid.toFields([
-        ["id", "number", "Id", {
+        ['id', 'number', 'Id', {
           editing: false
         }],
-        ["name", "text", "Name"],
-        ["lastName", "text", "Last Name"],
-        ["address", "text", "Address"],
-        ["email", "text", "Email"],
-        ["phone", "text", "Phone"],
-        ["dummy", "", "", {
+        ['name', 'text', 'Name'],
+        ['lastName', 'text', 'Last Name'],
+        ['address', 'text', 'Address'],
+        ['email', 'text', 'Email'],
+        ['phone', 'text', 'Phone'],
+        ['dummy', '', '', {
+          width: '32px',
           editTemplate: $.noop,
           itemTemplate: function(value, item) {
             const grid = this._grid
             return $('<div title="New order">').kendoButton({
-              icon: "track-changes-enable",
+              icon: 'track-changes-enable',
               click: e => {
                 // Prefent default edit on click
                 e.event.stopPropagation()
@@ -58,8 +58,8 @@ App.views.define(() => {
             })
           }
         }], {
-          width: 48,
-          type: "control"
+          width: '64px',
+          type: 'control'
         }
       ])
     })
@@ -70,5 +70,5 @@ App.views.define(() => {
       render: render
     }
   }
-}, "customer", "render")
+}, 'customer', 'render')
 //# sourceURL=/app/views/customer.js

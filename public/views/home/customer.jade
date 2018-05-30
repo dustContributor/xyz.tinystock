@@ -4,7 +4,7 @@ include ./order/create
 div(id="#{customerContainerId}") 
   h1(style="margin: 0;") CUSTOMERS
   div.ts-inner-container.ts-lv1
-    div.k-grid.k-widget.k-display-block(id="#{customersId}")  
+    div(id="#{customersId}")  
   script(src="#{html.view('home/customer.js')}")
   script.
     App.views.customer.render({
@@ -15,6 +15,8 @@ div(id="#{customerContainerId}")
         nextContainerId: "#{customerContainerId}",
         containerId: "#{orderCreateContainerId}",
         componentsId: "#{orderCreateComponentsId}",
+        splitId: "#{orderCreateSplitId}",
+        detailId: "#{orderCreateDetailId}",
         toolbarId: "#{orderCreateToolbarId}"
       })
     })
