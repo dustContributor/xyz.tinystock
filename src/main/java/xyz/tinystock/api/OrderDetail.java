@@ -6,9 +6,12 @@ import static xyz.tinystock.database.tables.Stock.STOCK;
 import static xyz.tinystock.utils.OpsDb.dslContext;
 
 import org.jooby.Jooby;
+import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 import org.jooq.types.UInteger;
+
+import xyz.tinystock.utils.OpsHttp;
 
 public final class OrderDetail
 {
@@ -43,6 +46,12 @@ public final class OrderDetail
 		{
 			// Default for de-serialization.
 		}
+	}
+
+	static final class Delete
+	{
+		public long orderId;
+		public long componentId;
 	}
 
 	static final class GetParams
@@ -112,6 +121,42 @@ public final class OrderDetail
 												.and( ORDER_DETAIL.ID_COMPONENT
 														.eq( UInteger.valueOf( model.componentId ) ) ) )
 												.map( Get::new );
+							}
+						} );
+					}
+				} )
+				.delete( req ->
+				{
+					final Delete model = req.body().to( Delete.class );
+					final UInteger componentId = UInteger.valueOf( model.componentId );
+					final UInteger orderId = UInteger.valueOf( model.orderId );
+
+					try ( DSLContext db = dslContext( req ) )
+					{
+						return db.transactionResult( cfg ->
+						{
+							try ( DSLContext tr = DSL.using( cfg ) )
+							{
+								// ORDER_DETAIL has a compond key.
+								final Condition cond = ORDER_DETAIL.ID_COMPONENT.eq( componentId )
+										.and( ORDER_DETAIL.ID_ORDER.eq( orderId ) );
+								// Update the stock subtracting what was ordered.
+								final int mod = tr.update( STOCK )
+										.set( STOCK.QUANTITY, STOCK.QUANTITY.sub( tr
+												.select( ORDER_DETAIL.QUANTITY )
+												.from( ORDER_DETAIL )
+												.where( cond )
+												.asField() ) )
+										.where( STOCK.ID_COMPONENT.eq( componentId ) )
+										.execute();
+								if ( mod < 1 )
+								{
+									return OpsHttp.notFound();
+								}
+								final int modDel = tr.deleteFrom( ORDER_DETAIL )
+										.where( cond )
+										.execute();
+								return modDel < 1 ? OpsHttp.notFound() : OpsHttp.ok();
 							}
 						} );
 					}
