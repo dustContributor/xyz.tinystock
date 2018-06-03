@@ -115,12 +115,15 @@ public final class OrderDetail
 														.where( COMPONENT.ID.eq( componentId ) ) )
 										.execute();
 								// If nothing was inserted, something went wrong.
-								return mod < 1 ? new Get[0]
-										: tr.fetchOne( ORDER_DETAIL, ORDER_DETAIL.ID_ORDER
-												.eq( UInteger.valueOf( model.orderId ) )
-												.and( ORDER_DETAIL.ID_COMPONENT
-														.eq( UInteger.valueOf( model.componentId ) ) ) )
-												.map( Get::new );
+								if ( mod < 1 )
+								{
+									return OpsHttp.badRequest();
+								}
+								return tr.fetchOne( ORDER_DETAIL, ORDER_DETAIL.ID_ORDER
+										.eq( UInteger.valueOf( model.orderId ) )
+										.and( ORDER_DETAIL.ID_COMPONENT
+												.eq( UInteger.valueOf( model.componentId ) ) ) )
+										.map( Get::new );
 							}
 						} );
 					}
@@ -137,7 +140,7 @@ public final class OrderDetail
 						{
 							try ( DSLContext tr = DSL.using( cfg ) )
 							{
-								// ORDER_DETAIL has a compond key.
+								// ORDER_DETAIL has a compound key.
 								final Condition cond = ORDER_DETAIL.ID_COMPONENT.eq( componentId )
 										.and( ORDER_DETAIL.ID_ORDER.eq( orderId ) );
 								// Update the stock subtracting what was ordered.

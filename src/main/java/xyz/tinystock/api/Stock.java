@@ -4,7 +4,9 @@ import static xyz.tinystock.database.tables.Stock.STOCK;
 import static xyz.tinystock.utils.OpsDb.dslContext;
 
 import org.jooby.Jooby;
+import org.jooq.Condition;
 import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
 import org.jooq.types.UInteger;
 
 import xyz.tinystock.utils.OpsHttp;
@@ -48,6 +50,22 @@ public final class Stock
 				.get( req ->
 				{
 					final long id = req.param( "id" ).longValue( 0 );
+					// Don't even try to parse it if we got a proper ID first.
+					final UInteger[] ids = id > 0 ? null
+							: req.param( "ids" ).toList().stream()
+									.map( v ->
+									{
+										try
+										{
+											return UInteger.valueOf( v );
+										}
+										catch ( Exception e )
+										{
+											return null;
+										}
+									} )
+									.filter( v -> v != null )
+									.toArray( UInteger[]::new );
 
 					try ( DSLContext db = dslContext( req ) )
 					{
@@ -55,13 +73,19 @@ public final class Stock
 						 * If an id was passed, add a where clause, otherwise fetch all
 						 * rows.
 						 */
+						Condition cond = DSL.trueCondition();
+						if ( ids != null )
+						{
+							cond = STOCK.ID_COMPONENT.in( ids );
+						}
 						if ( id > 0 )
 						{
-							return db
-									.fetchOne( STOCK, STOCK.ID_COMPONENT.eq( UInteger.valueOf( id ) ) )
-									.map( Get::new );
+							cond = STOCK.ID_COMPONENT.eq( UInteger.valueOf( id ) );
 						}
-						return db.fetch( STOCK ).map( Get::new );
+						return db.selectFrom( STOCK )
+								.where( cond )
+								.fetch()
+								.map( Get::new );
 					}
 				} )
 				.put( req ->

@@ -11,6 +11,9 @@ window.App = $.extend(true, window.App || {}, (() => {
     }
   }
 
+  const contentTypeJson = 'application/json;charset=UTF-8'
+  const contentTypeForm = 'application/x-www-form-urlencoded;charset=UTF-8'
+
   const types = {
     define: (name, items) => {
       const byId = {}
@@ -41,8 +44,8 @@ window.App = $.extend(true, window.App || {}, (() => {
   const utils = {
     ajax: {
       contentTypes: {
-        json: 'application/json;charset=UTF-8',
-        form: 'application/x-www-form-urlencoded;charset=UTF-8'
+        json: contentTypeJson,
+        form: contentTypeForm
       }
     },
     formats: {
@@ -85,10 +88,12 @@ window.App = $.extend(true, window.App || {}, (() => {
             method: method,
             url: url
           }
+          // Specific request issue function
+          const request = (extra && _.isFunction(extra.req)) ? extra.req : o => $.ajax(o)
           // We issue JSON by default, and only disallow it
           const isJson = !extra || extra.isJson !== false
           if (isJson) {
-            ajaxOpts.contentType = 'application/json;charset=UTF-8'
+            ajaxOpts.contentType = contentTypeJson
           }
           if (extra && extra.ajax) {
             _.extend(ajaxOpts, extra.ajax)
@@ -107,7 +112,7 @@ window.App = $.extend(true, window.App || {}, (() => {
               data = _.extend({}, data, extraData(data))
             }
             ajaxOpts.data = isJson ? JSON.stringify(data) : data
-            return $.ajax(ajaxOpts)
+            return request(ajaxOpts)
           }
         }
 

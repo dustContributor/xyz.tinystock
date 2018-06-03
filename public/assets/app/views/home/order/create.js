@@ -75,7 +75,6 @@ App.views.define(() => {
           update: detailData,
           destroy: detailData
         }),
-        onRefreshed: () => split.resize(true),
         fields: App.utils.jsGrid.toFields([
           ['orderId', 'number', '', {
             visible: false
@@ -136,28 +135,58 @@ App.views.define(() => {
         ])
       }).getJsGrid()
 
+      const emptyFilter = function() {
+        return this.filterControl = $('<input style="display: none;">')
+      }
+
       const components = els.components.jsGrid({
         autoload: false,
         editing: false,
         inserting: false,
         filtering: true,
+        sorting: true,
         width: '100%',
         // css: '',
         //headercss: 'k-grid-header',
         controller: App.utils.jsGrid.toController(App.urls.api.component.query, {
           read: {
-            isJson: false
+            isJson: false,
+            req: o => (
+              $.ajax(o).then(items => (
+                $.ajax({
+                  method: 'GET',
+                  traditional: true,
+                  url: App.urls.api.stock,
+                  data: {
+                    ids: _.map(items, v => (v.id))
+                  }
+                }).then(stocks => {
+                  const stocksById = _.indexBy(stocks, 'componentId')
+                  for (let i = items.length; i-- > 0;) {
+                    const item = items[i]
+                    const stock = stocksById[item.id]
+                    item.quantity = stock ? stock.quantity : 0
+                  }
+                  return items
+                })
+              ))
+            )
           }
         }),
-        // Do this each refresh or if the grid is big enough it will go through the splitter.
-        onRefreshed: () => split.resize(true),
         fields: App.utils.jsGrid.toFields([
           ['id', 'number', 'Id', {
             editing: false
           }],
           ['code', 'text', 'Code'],
-          ['price', 'number', 'Price'],
-          ['description', 'text', 'Description']
+          ['price', 'number', 'Price', {
+            filterTemplate: emptyFilter
+          }],
+          ['quantity', 'number', 'Available', {
+            filterTemplate: emptyFilter
+          }],
+          ['description', 'text', 'Description', {
+            filterTemplate: emptyFilter
+          }]
         ])
       }).getJsGrid()
 
