@@ -3,7 +3,7 @@
 App.views.define(() => {
     const render = pars => {
       const els = App.utils.selectors.fromIds(pars)
-
+      const dragComponentTemplate = kendo.template(els.templates.dragComponent.html())
       const fadeMs = 500
       const mainFade = kendo.fx(els.container).fadeIn(fadeMs)
       const nextFade = kendo.fx(els.nextContainer).fadeIn(fadeMs)
@@ -189,6 +189,51 @@ App.views.define(() => {
           }]
         ])
       }).getJsGrid()
+
+      const drag = els.components.kendoDraggable({
+        /*
+         * Start the drag at the cell level, otherwise
+         * the 'hint' element appears far off the pointer.
+         * Filtering by jsgrid body so not to grab the
+         * headers too.
+         */
+        filter: '.jsgrid-grid-body td',
+        group: 'createOrderComponentAdd',
+        hint: e => {
+          const item = components.itemByRow(e.parent('tr'))
+          return $(dragComponentTemplate(item))
+        }
+      }).getKendoDraggable()
+
+      const addComponentModel = kendo.observable({
+        quantity: 0
+      })
+
+      kendo.bind(els.confirmAddComponent, addComponentModel)
+
+      const confirmAddComponent = els.confirmAddComponent.kendoWindow({
+        title: 'How many?',
+        modal: true,
+        resizable: false
+      }).getKendoWindow()
+
+      const drop = els.detail.kendoDropTarget({
+        group: drag.options.group,
+        drop: e => {
+          const item = components.itemByRow(e.draggable.currentTarget.parent('tr'))
+          if(item.quantity < 1) {
+            alert('There is no stock of this component!')
+            return
+          }
+          const input = confirmAddComponent.element.find('[name=quantity]').getKendoNumericTextBox()
+          // Initial quantity is always the minimum.
+          addComponentModel.set('quantity', input.min())
+          // Maximum quantity is whatever stock is left for the item.
+          input.max(item.quantity)
+          // Center the window and ask the user how many of the items they want.
+          confirmAddComponent.center().open()
+        }
+      }).getKendoDropTarget()
 
       const resizeSplit = split.resize.bind(split)
 

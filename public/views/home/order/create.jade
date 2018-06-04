@@ -3,6 +3,8 @@
 - var orderCreateDetailId = "id-order-create-container-detail"
 - var orderCreateToolbarId = "id-order-create-toolbar"
 - var orderCreateSplitId = "id-order-create-split"
+- var orderCreateComponentDragTemplateId = "id-order-create-component-drag-template"
+- var orderCreateConfirmAddComponentId = "id-order-create-component-quantity-template"
 style.
   ##{orderCreateToolbarId} {
     text-align: right;
@@ -11,6 +13,21 @@ style.
   ##{orderCreateToolbarId} > button {
     margin: 4px;
   }
+
+script(id="#{orderCreateComponentDragTemplateId}" type="text/html")
+  div.k-state-selected.ts-create-order-drag-component-hint 
+    label #: code #
+    label #: kendo.toString(price, 'n2') #
+
+div(id="#{orderCreateConfirmAddComponentId}")
+  label Quantity
+  input(name="quantity"
+    type="number" 
+    data-bind="value: quantity"
+    data-role="numerictextbox"
+    data-min="1"
+    data-decimals="0"
+    data-format="{0:0}")
 
 div.ts-section-container(id="#{orderCreateContainerId}")
   div

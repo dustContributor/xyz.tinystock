@@ -55,3 +55,10 @@ body {
   /* This fixes the jsgrid header somehow being smaller than its contents.*/
   overflow: unset;
 }
+
+
+.ts-create-order-drag-component-hint {
+  min-width: 140px;
+  margin: 1em;
+  padding: 1em;
+}
