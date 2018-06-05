@@ -51,7 +51,7 @@ window.App = $.extend(true, window.App || {}, (() => {
     formats: {
       date: "dd/MM/yyyy",
       timeStamp: "HH:mm:ss",
-      full: "yyyyMMddHHmmss",
+      full: "yyyyMMddHHmmss"
     },
     selectors: {
       fromIds: selectors => {

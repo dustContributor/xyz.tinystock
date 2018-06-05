@@ -143,9 +143,9 @@ public final class OrderDetail
 								// ORDER_DETAIL has a compound key.
 								final Condition cond = ORDER_DETAIL.ID_COMPONENT.eq( componentId )
 										.and( ORDER_DETAIL.ID_ORDER.eq( orderId ) );
-								// Update the stock subtracting what was ordered.
+								// Update the stock adding what was ordered.
 								final int mod = tr.update( STOCK )
-										.set( STOCK.QUANTITY, STOCK.QUANTITY.sub( tr
+										.set( STOCK.QUANTITY, STOCK.QUANTITY.add( tr
 												.select( ORDER_DETAIL.QUANTITY )
 												.from( ORDER_DETAIL )
 												.where( cond )
