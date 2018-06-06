@@ -3,9 +3,9 @@ block content
   - var mainMenuId = "id-main-menu"
   - var mainContainerId = "id-main-container"
   ul.ts-main-menu(id=mainMenuId)
-  div.k-widget.k-header.ts-section-region(id=mainContainerId)
+  div.k-widget.k-header.ts-main-section-container(id=mainContainerId)
   include ./shared/context
-  script(src="#{html.view('home.js')}")
+  script(src=html.view('home.js'))
   script.
     App().then(() => {
       App.views.home.render({

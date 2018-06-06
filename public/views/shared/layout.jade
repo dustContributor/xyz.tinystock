@@ -1,5 +1,5 @@
 doctype html  
-html(lang='en' style="
+html(lang="en" style="
   height: 100%;
   margin: 0;
   padding: 0;
@@ -20,12 +20,8 @@ html(lang='en' style="
    script(src="assets/jsgrid/1.5.3/jsgrid.js")
    script(src="assets/app/alt/jquery.js")
    script(src="assets/app/alt/jsgrid.js")
- body(style="
-  height: calc(100% - 2px);
-  margin: 0;
-  padding: 0;
-  border: none;")
-   div.k-widget.k-header(style="text-align: center; margin: 2px; height:80px")
+ body
+   div.k-widget.k-header.ts-main-header
      h1 tinyStock
-   div(style="height: calc(100% - 90px); margin: 2px; padding: 0;")
+   div.ts-main-content
      block content

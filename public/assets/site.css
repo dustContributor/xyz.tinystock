@@ -2,23 +2,48 @@
 
 body {
   font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  border: none;
+  /* ensure it doesn't auto fits to content */
+  width: 100vw;
+  height: 100vh;
+}
+
+.ts-main-header {
+  text-align: center;
+  min-height: 48px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ts-main-menu, .ts-main-section-container, .ts-main-header {
+  /* Margins between the 'inner' sections of the site */
+  margin: 2px;
+}
+
+.ts-main-header>h1 {
+  /* h1 has big margins otherwise */
+  margin: auto;
+}
+
+.ts-main-content {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 auto;
 }
 
 .ts-main-menu {
-  width: 148px;
-  margin-right: 4px;
-  height: 100%;
-  display: inline-block;
-  float: left;
+  min-width: 148px;
 }
 
-.ts-section-region {
-  width: calc(100% - 156px);
-  height: 100%;
-  display: inline-block;
+.ts-main-section-container {
+  flex: 1 1 auto;
 }
 
-.ts-section-container {
+.ts-section {
   height: 100%;
   width: 100%;
   border: none;
@@ -26,7 +51,12 @@ body {
   margin: 0;
 }
 
-.ts-inner-container {
+.ts-section-header {
+  margin: 0px;
+  margin-left: 8px;
+}
+
+.ts-section-container {
   margin: 8px;
 }
 
@@ -49,13 +79,14 @@ body {
   flex-flow: column;
   /* jsgrid likes to set the height to auto on the element directly */
   height: 100%!important;
+  /* jsgrid doesn't takes all the width by default, it also sets it directly in the element */
+  width: 100%!important;
 }
 
 .ts-create-order-split .jsgrid-grid-header {
   /* This fixes the jsgrid header somehow being smaller than its contents.*/
   overflow: unset;
 }
-
 
 .ts-create-order-drag-component-hint {
   min-width: 140px;
