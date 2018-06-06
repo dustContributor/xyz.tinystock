@@ -1,7 +1,12 @@
 App.views.define(() => {
   const render = pars => {
     const els = App.utils.selectors.fromIds(pars)
-
+    /* 
+    * Kendo FX fade retains the display style when hiding elements and can restore it
+    * if it's in the proper place. Since we hide manually initially, place it so it can
+    * be restored later.
+    */
+    els.orderCreateContainer.data('olddisplay', els.orderCreateContainer.css('display'))
     els.orderCreateContainer.hide()
 
     const showCreateOrder = pars.createOrder.show
@@ -43,7 +48,7 @@ App.views.define(() => {
         ['dummy', '', '', {
           width: '32px',
           editTemplate: $.noop,
-          itemTemplate: function(value, item) {
+          itemTemplate: function (value, item) {
             const grid = this._grid
             return $('<div title="New order">').kendoButton({
               icon: 'track-changes-enable',

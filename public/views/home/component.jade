@@ -1,8 +1,8 @@
 div.ts-section
   - var containerId = "id-main-component-container"
   h1.ts-section-header COMPONENTS
-  div.ts-inner-container.ts-lv1
-    div(id=containerId, style="overflow: auto;")
+  div.ts-section-container.ts-lv1
+    div(id=containerId)
   script(src=html.view('home/component.js'))
   script.
     App.views.component.render({

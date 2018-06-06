@@ -1,5 +1,12 @@
 /* APP STYLES */
 
+.ts-lv1 {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  /*transition: all 0.3s cubic-bezier(.25, .8, .25, 1);*/
+}
+
+/* APP LAYOUT STYLES */
+
 body {
   font-family: sans-serif;
   display: flex;
@@ -39,6 +46,11 @@ body {
   min-width: 148px;
 }
 
+.ts-main-menu>li {
+  margin: 4px;
+  text-align: right;
+}
+
 .ts-main-section-container {
   flex: 1 1 auto;
 }
@@ -52,26 +64,39 @@ body {
 }
 
 .ts-section-header {
-  margin: 0px;
-  margin-left: 8px;
+  margin: 8px 8px 4px 8px;
 }
 
 .ts-section-container {
-  margin: 8px;
+  margin: 4px 8px 4px 8px;
+  border: none;
 }
 
-.ts-main-menu-item {
-  margin: 4px;
+/* APP CREATE ORDER STYLES */
+
+.ts-create-order {
+  display: flex;
+  flex-direction: column;
+}
+
+.ts-create-order>h1 {
+  flex-grow: 0;
+}
+
+.ts-create-order-toolbar {
+  background: white;
   text-align: right;
+  flex-grow: 0;
+  margin-bottom: 8px;
 }
 
-.ts-lv1 {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  /*transition: all 0.3s cubic-bezier(.25, .8, .25, 1);*/
+.ts-create-order-toolbar .k-button {
+  margin: 2px;
 }
 
 .ts-create-order-split {
-  height: calc(100% - 103px);
+  /* height: calc(100% - 103px); */
+  flex: 1 1 auto;
 }
 
 .ts-create-order-split .jsgrid {
