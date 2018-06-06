@@ -65,8 +65,7 @@ App.views.define(() => {
     const details = els.detail.jsGrid({
       autoload: false,
       editing: true,
-      inserting: true,
-      width: '100%',
+      inserting: false,
       controller: App.utils.jsGrid.toController(App.urls.api.orderDetail, {
         read: _.extend({
           isJson: false
@@ -106,7 +105,7 @@ App.views.define(() => {
             }
           },
           itemTemplate: (item, value) => {
-            debugger;
+            // debugger
           },
           /* This has to be a function, otherwise 'this' doesn't gets bound. */
           insertTemplate: function (item, value) {
@@ -130,7 +129,7 @@ App.views.define(() => {
           editTemplate: () => ($('<input name="quantity" style="width: 100%;">'))
         }], ['totalPrice', 'number', 'Total Price'], {
           type: 'control',
-          width: 16
+          width: 32
         }
       ])
     }).getJsGrid()
@@ -145,9 +144,6 @@ App.views.define(() => {
       inserting: false,
       filtering: true,
       sorting: true,
-      width: '100%',
-      // css: '',
-      //headercss: 'k-grid-header',
       controller: App.utils.jsGrid.toController(App.urls.api.component.query, {
         read: {
           isJson: false,

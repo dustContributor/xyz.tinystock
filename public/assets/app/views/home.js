@@ -15,7 +15,7 @@ App.views.define(() => {
       return {
         text: title,
         attr: {
-          class: "ts-main-menu-item ts-lv1",
+          class: "ts-lv1",
           "data-uid": uid || kendo.guid(),
           "data-content-url": url
         }
@@ -52,7 +52,7 @@ App.views.define(() => {
           $("<div>")
             .hide()
             .attr("id", uid)
-            .addClass("ts-section-container")
+            .addClass("ts-section")
             .html(html)
             .appendTo(els.mainContainer)
           hideAllBut(uid, extra)
