@@ -4,6 +4,7 @@
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" output="target/classes" path="src/main/java">
@@ -22,72 +23,31 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="var" path="M2_REPO/javax/inject/javax.inject/1/javax.inject-1.jar" sourcepath="M2_REPO/javax/inject/javax.inject/1/javax.inject-1-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="var" path="M2_REPO/org/jooby/jooby-netty/1.1.3/jooby-netty-1.1.3.jar" sourcepath="M2_REPO/org/jooby/jooby-netty/1.1.3/jooby-netty-1.1.3-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/jooby/jooby/1.1.3/jooby-1.1.3.jar" sourcepath="M2_REPO/org/jooby/jooby/1.1.3/jooby-1.1.3-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.7.21/slf4j-api-1.7.21.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.7.21/slf4j-api-1.7.21-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/ch/qos/logback/logback-classic/1.1.7/logback-classic-1.1.7.jar" sourcepath="M2_REPO/ch/qos/logback/logback-classic/1.1.7/logback-classic-1.1.7-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/ch/qos/logback/logback-core/1.1.7/logback-core-1.1.7.jar" sourcepath="M2_REPO/ch/qos/logback/logback-core/1.1.7/logback-core-1.1.7-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/typesafe/config/1.3.1/config-1.3.1.jar" sourcepath="M2_REPO/com/typesafe/config/1.3.1/config-1.3.1-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/io/javaslang/javaslang/2.0.4/javaslang-2.0.4.jar" sourcepath="M2_REPO/io/javaslang/javaslang/2.0.4/javaslang-2.0.4-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/io/javaslang/javaslang-match/2.0.4/javaslang-match-2.0.4.jar" sourcepath="M2_REPO/io/javaslang/javaslang-match/2.0.4/javaslang-match-2.0.4-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/guava/guava/21.0/guava-21.0.jar" sourcepath="M2_REPO/com/google/guava/guava/21.0/guava-21.0-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/inject/extensions/guice-multibindings/4.1.0/guice-multibindings-4.1.0.jar" sourcepath="M2_REPO/com/google/inject/extensions/guice-multibindings/4.1.0/guice-multibindings-4.1.0-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/inject/guice/4.1.0/guice-4.1.0.jar" sourcepath="M2_REPO/com/google/inject/guice/4.1.0/guice-4.1.0-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0.jar" sourcepath="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/io/netty/netty-transport/4.1.11.Final/netty-transport-4.1.11.Final.jar" sourcepath="M2_REPO/io/netty/netty-transport/4.1.11.Final/netty-transport-4.1.11.Final-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/io/netty/netty-buffer/4.1.11.Final/netty-buffer-4.1.11.Final.jar" sourcepath="M2_REPO/io/netty/netty-buffer/4.1.11.Final/netty-buffer-4.1.11.Final-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/io/netty/netty-common/4.1.11.Final/netty-common-4.1.11.Final.jar" sourcepath="M2_REPO/io/netty/netty-common/4.1.11.Final/netty-common-4.1.11.Final-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/io/netty/netty-resolver/4.1.11.Final/netty-resolver-4.1.11.Final.jar" sourcepath="M2_REPO/io/netty/netty-resolver/4.1.11.Final/netty-resolver-4.1.11.Final-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/io/netty/netty-codec/4.1.11.Final/netty-codec-4.1.11.Final.jar" sourcepath="M2_REPO/io/netty/netty-codec/4.1.11.Final/netty-codec-4.1.11.Final-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/io/netty/netty-codec-http/4.1.11.Final/netty-codec-http-4.1.11.Final.jar" sourcepath="M2_REPO/io/netty/netty-codec-http/4.1.11.Final/netty-codec-http-4.1.11.Final-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/io/netty/netty-codec-http2/4.1.11.Final/netty-codec-http2-4.1.11.Final.jar" sourcepath="M2_REPO/io/netty/netty-codec-http2/4.1.11.Final/netty-codec-http2-4.1.11.Final-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/io/netty/netty-handler/4.1.11.Final/netty-handler-4.1.11.Final.jar" sourcepath="M2_REPO/io/netty/netty-handler/4.1.11.Final/netty-handler-4.1.11.Final-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/javassist/javassist/3.20.0-GA/javassist-3.20.0-GA.jar" sourcepath="M2_REPO/org/javassist/javassist/3.20.0-GA/javassist-3.20.0-GA-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/io/netty/netty-transport-native-epoll/4.1.11.Final/netty-transport-native-epoll-4.1.11.Final.jar" sourcepath="M2_REPO/io/netty/netty-transport-native-epoll/4.1.11.Final/netty-transport-native-epoll-4.1.11.Final-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/io/netty/netty-transport-native-unix-common/4.1.11.Final/netty-transport-native-unix-common-4.1.11.Final.jar" sourcepath="M2_REPO/io/netty/netty-transport-native-unix-common/4.1.11.Final/netty-transport-native-unix-common-4.1.11.Final-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/io/netty/netty-transport-native-epoll/4.1.11.Final/netty-transport-native-epoll-4.1.11.Final-linux-x86_64.jar"/>
-	<classpathentry kind="var" path="M2_REPO/io/netty/netty-tcnative-boringssl-static/1.1.33.Fork26/netty-tcnative-boringssl-static-1.1.33.Fork26-linux-x86_64.jar"/>
-	<classpathentry kind="var" path="M2_REPO/junit/junit/4.12/junit-4.12.jar" sourcepath="M2_REPO/junit/junit/4.12/junit-4.12-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" sourcepath="M2_REPO/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/io/rest-assured/rest-assured/3.0.1/rest-assured-3.0.1.jar" sourcepath="M2_REPO/io/rest-assured/rest-assured/3.0.1/rest-assured-3.0.1-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/codehaus/groovy/groovy/2.4.7/groovy-2.4.7.jar" sourcepath="M2_REPO/org/codehaus/groovy/groovy/2.4.7/groovy-2.4.7-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/codehaus/groovy/groovy-xml/2.4.6/groovy-xml-2.4.6.jar" sourcepath="M2_REPO/org/codehaus/groovy/groovy-xml/2.4.6/groovy-xml-2.4.6-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/httpclient/4.5.2/httpclient-4.5.2.jar" sourcepath="M2_REPO/org/apache/httpcomponents/httpclient/4.5.2/httpclient-4.5.2-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/httpcore/4.4.4/httpcore-4.4.4.jar" sourcepath="M2_REPO/org/apache/httpcomponents/httpcore/4.4.4/httpcore-4.4.4-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.2/commons-logging-1.2.jar" sourcepath="M2_REPO/commons-logging/commons-logging/1.2/commons-logging-1.2-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/commons-codec/commons-codec/1.9/commons-codec-1.9.jar" sourcepath="M2_REPO/commons-codec/commons-codec/1.9/commons-codec-1.9-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/httpmime/4.5.2/httpmime-4.5.2.jar" sourcepath="M2_REPO/org/apache/httpcomponents/httpmime/4.5.2/httpmime-4.5.2-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-library/1.3/hamcrest-library-1.3.jar" sourcepath="M2_REPO/org/hamcrest/hamcrest-library/1.3/hamcrest-library-1.3-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/ccil/cowan/tagsoup/tagsoup/1.2.1/tagsoup-1.2.1.jar" sourcepath="M2_REPO/org/ccil/cowan/tagsoup/tagsoup/1.2.1/tagsoup-1.2.1-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/io/rest-assured/json-path/3.0.1/json-path-3.0.1.jar" sourcepath="M2_REPO/io/rest-assured/json-path/3.0.1/json-path-3.0.1-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/codehaus/groovy/groovy-json/2.4.6/groovy-json-2.4.6.jar" sourcepath="M2_REPO/org/codehaus/groovy/groovy-json/2.4.6/groovy-json-2.4.6-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/io/rest-assured/rest-assured-common/3.0.1/rest-assured-common-3.0.1.jar" sourcepath="M2_REPO/io/rest-assured/rest-assured-common/3.0.1/rest-assured-common-3.0.1-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-lang3/3.4/commons-lang3-3.4.jar" sourcepath="M2_REPO/org/apache/commons/commons-lang3/3.4/commons-lang3-3.4-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/io/rest-assured/xml-path/3.0.1/xml-path-3.0.1.jar" sourcepath="M2_REPO/io/rest-assured/xml-path/3.0.1/xml-path-3.0.1-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/jooby/jooby-run/1.1.3/jooby-run-1.1.3.jar" sourcepath="M2_REPO/org/jooby/jooby-run/1.1.3/jooby-run-1.1.3-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/jboss/modules/jboss-modules/1.4.5.Final/jboss-modules-1.4.5.Final.jar" sourcepath="M2_REPO/org/jboss/modules/jboss-modules/1.4.5.Final/jboss-modules-1.4.5.Final-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/jooby/jooby-jade/1.1.3/jooby-jade-1.1.3.jar" sourcepath="M2_REPO/org/jooby/jooby-jade/1.1.3/jooby-jade-1.1.3-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/de/neuland-bfi/jade4j/1.1.4/jade4j-1.1.4.jar" sourcepath="M2_REPO/de/neuland-bfi/jade4j/1.1.4/jade4j-1.1.4-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-jexl/2.1.1/commons-jexl-2.1.1.jar" sourcepath="M2_REPO/org/apache/commons/commons-jexl/2.1.1/commons-jexl-2.1.1-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar" sourcepath="M2_REPO/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/commons-io/commons-io/2.4/commons-io-2.4.jar" sourcepath="M2_REPO/commons-io/commons-io/2.4/commons-io-2.4-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/googlecode/concurrentlinkedhashmap/concurrentlinkedhashmap-lru/1.4.2/concurrentlinkedhashmap-lru-1.4.2.jar" sourcepath="M2_REPO/com/googlecode/concurrentlinkedhashmap/concurrentlinkedhashmap-lru/1.4.2/concurrentlinkedhashmap-lru-1.4.2-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/pegdown/pegdown/1.6.0/pegdown-1.6.0.jar" sourcepath="M2_REPO/org/pegdown/pegdown/1.6.0/pegdown-1.6.0-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/parboiled/parboiled-java/1.1.7/parboiled-java-1.1.7.jar" sourcepath="M2_REPO/org/parboiled/parboiled-java/1.1.7/parboiled-java-1.1.7-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/parboiled/parboiled-core/1.1.7/parboiled-core-1.1.7.jar" sourcepath="M2_REPO/org/parboiled/parboiled-core/1.1.7/parboiled-core-1.1.7-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/ow2/asm/asm/5.0.3/asm-5.0.3.jar" sourcepath="M2_REPO/org/ow2/asm/asm/5.0.3/asm-5.0.3-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/ow2/asm/asm-tree/5.0.3/asm-tree-5.0.3.jar" sourcepath="M2_REPO/org/ow2/asm/asm-tree/5.0.3/asm-tree-5.0.3-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/ow2/asm/asm-analysis/5.0.3/asm-analysis-5.0.3.jar" sourcepath="M2_REPO/org/ow2/asm/asm-analysis/5.0.3/asm-analysis-5.0.3-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/ow2/asm/asm-util/5.0.3/asm-util-5.0.3.jar" sourcepath="M2_REPO/org/ow2/asm/asm-util/5.0.3/asm-util-5.0.3-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="target/generated-sources/annotations">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="ignore_optional_problems" value="true"/>
+			<attribute name="m2e-apt" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" output="target/test-classes" path="target/generated-test-sources/test-annotations">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="ignore_optional_problems" value="true"/>
+			<attribute name="m2e-apt" value="true"/>
+			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>

@@ -29,39 +29,40 @@ public final class Auth
 		return OpsAuth.validate( password, salt, pass );
 	}
 
-	public static final Jooby register ( Jooby dest )
+	public static final Jooby register ( Jooby app )
 	{
-		dest.use( "api/auth" )
-				.post( req ->
+		app.path( "api/auth", () ->
+		{
+			app.post( req ->
+			{
+				final String name = req.param( "name" ).value();
+				final String pass = req.param( "pass" ).value();
+
+				if ( StringUtils.isBlank( name )
+						|| StringUtils.isBlank( pass ) )
 				{
-					final String name = req.param( "name" ).value();
-					final String pass = req.param( "pass" ).value();
+					return OpsHttp.badRequest();
+				}
 
-					if ( StringUtils.isBlank( name )
-							|| StringUtils.isBlank( pass ) )
-					{
-						return OpsHttp.badRequest();
-					}
-					
-					final UserRecord user;
+				final UserRecord user;
 
-					try ( DSLContext db = dslContext( req ) )
-					{
-						user = db.fetchOne( USER, USER.NAME.eq( name ) );
-					}
+				try ( DSLContext db = dslContext( req ) )
+				{
+					user = db.fetchOne( USER, USER.NAME.eq( name ) );
+				}
 
-					final boolean isValid = validate( user, pass );
-					/*
-					 * If the user exists but the password is invalid, we return not found
-					 * anyway, to avoid disclosing the user exists. Still, hacker could
-					 * derive this from timing the non-existent query versus existing
-					 * query, since one could return faster than the other. In this case
-					 * we run validate regardless of the existence of the user, the
-					 * timings ought to be similar enough to avoid disclosing anything.
-					 */
-					return user != null && isValid ? OpsHttp.ok() : OpsHttp.notFound();
-				} );
-
-		return dest;
+				final boolean isValid = validate( user, pass );
+				/*
+				 * If the user exists but the password is invalid, we return not found
+				 * anyway, to avoid disclosing the user exists. Still, hacker could
+				 * derive this from timing the non-existent query versus existing query,
+				 * since one could return faster than the other. In this case we run
+				 * validate regardless of the existence of the user, the timings ought
+				 * to be similar enough to avoid disclosing anything.
+				 */
+				return user != null && isValid ? OpsHttp.ok() : OpsHttp.notFound();
+			} );
+		} );
+		return app;
 	}
 }

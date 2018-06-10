@@ -63,8 +63,7 @@ public final class Customer
 		{
 			// Default for de-serialization.
 		}
-		
-		
+
 	}
 
 	public static class Delete
@@ -74,91 +73,93 @@ public final class Customer
 
 	public static final Jooby register ( Jooby app )
 	{
-		app.use( "api/customer" )
-				.get( req ->
+		app.path( "api/customer", () ->
+		{
+			app.get( req ->
+			{
+				final long id = req.param( "id" ).longValue( 0 );
+
+				try ( DSLContext db = dslContext( req ) )
 				{
-					final long id = req.param( "id" ).longValue( 0 );
+					return db
+							.selectFrom( CUSTOMER )
+							/*
+							 * If an id was passed, add a where clause, otherwise fetch all
+							 * rows.
+							 */
+							.where( id > 0 ? CUSTOMER.ID.eq( UInteger.valueOf( id ) ) : DSL.trueCondition() )
+							.fetch()
+							.map( Get::new );
+				}
+			} );
+			app.post( req ->
+			{
+				final Post model = req.body( Post.class );
 
-					try ( DSLContext db = dslContext( req ) )
-					{
-						return db
-								.selectFrom( CUSTOMER )
-								/*
-								 * If an id was passed, add a where clause, otherwise fetch all
-								 * rows.
-								 */
-								.where( id > 0 ? CUSTOMER.ID.eq( UInteger.valueOf( id ) ) : DSL.trueCondition() )
-								.fetch()
-								.map( Get::new );
-					}
-				} )
-				.post( req ->
+				try ( DSLContext db = dslContext( req ) )
 				{
-					final Post model = req.body( Post.class );
+					// Id is auto generated database-side, fetch after insert.
+					return db.insertInto( CUSTOMER,
+							CUSTOMER.NAME,
+							CUSTOMER.LAST_NAME,
+							CUSTOMER.ADDRESS,
+							CUSTOMER.PHONE,
+							CUSTOMER.EMAIL )
+							.values( model.name, model.lastName, model.address, model.phone, model.email )
+							// Return field by field or all of them together.
+							.returning( CUSTOMER.fields() )
+							.fetchOne()
+							.map( Get::new );
+				}
+			} );
+			app.put( req ->
+			{
+				final Put model = req.body( Put.class );
+				final UInteger id = UInteger.valueOf( model.id );
 
-					try ( DSLContext db = dslContext( req ) )
-					{
-						// Id is auto generated database-side, fetch after insert.
-						return db.insertInto( CUSTOMER,
-								CUSTOMER.NAME,
-								CUSTOMER.LAST_NAME,
-								CUSTOMER.ADDRESS,
-								CUSTOMER.PHONE,
-								CUSTOMER.EMAIL )
-								.values( model.name, model.lastName, model.address, model.phone, model.email )
-								// Return field by field or all of them together.
-								.returning( CUSTOMER.fields() )
-								.fetchOne()
-								.map( Get::new );
-					}
-				} )
-				.put( req ->
+				try ( DSLContext db = dslContext( req ) )
 				{
-					final Put model = req.body( Put.class );
-					final UInteger id = UInteger.valueOf( model.id );
-
-					try ( DSLContext db = dslContext( req ) )
+					final int mod = db.update( CUSTOMER )
+							/*
+							 * Can't use set(row,row) because MySQL doesn't supports row
+							 * expressions.
+							 */
+							.set( CUSTOMER.NAME, model.name )
+							.set( CUSTOMER.LAST_NAME, model.lastName )
+							.set( CUSTOMER.ADDRESS, model.address )
+							.set( CUSTOMER.PHONE, model.phone )
+							.set( CUSTOMER.EMAIL, model.email )
+							.where( CUSTOMER.ID.eq( id ) )
+							/*
+							 * Can't use 'returning(fields)' here because it isn't supported
+							 * in MySQL.
+							 */
+							.execute();
+					if ( mod < 1 )
 					{
-						final int mod = db.update( CUSTOMER )
-								/*
-								 * Can't use set(row,row) because MySQL doesn't supports row
-								 * expressions.
-								 */
-								.set( CUSTOMER.NAME, model.name )
-								.set( CUSTOMER.LAST_NAME, model.lastName )
-								.set( CUSTOMER.ADDRESS, model.address )
-								.set( CUSTOMER.PHONE, model.phone )
-								.set( CUSTOMER.EMAIL, model.email )
-								.where( CUSTOMER.ID.eq( id ) )
-								/*
-								 * Can't use 'returning(fields)' here because it isn't supported
-								 * in MySQL.
-								 */
-								.execute();
-						if ( mod < 1 )
-						{
-							return OpsHttp.notFound();
-						}
-						// Fetch it back and return.
-						return db.selectFrom( CUSTOMER )
-								.where( CUSTOMER.ID.eq( id ) )
-								.fetchOne()
-								.map( Get::new );
+						return OpsHttp.notFound();
 					}
-				} )
-				.delete( req ->
+					// Fetch it back and return.
+					return db.selectFrom( CUSTOMER )
+							.where( CUSTOMER.ID.eq( id ) )
+							.fetchOne()
+							.map( Get::new );
+				}
+			} );
+			app.delete( req ->
+			{
+				final Delete model = req.body( Delete.class );
+
+				try ( DSLContext db = dslContext( req ) )
 				{
-					final Delete model = req.body( Delete.class );
+					final int mod = db.delete( CUSTOMER )
+							.where( CUSTOMER.ID.eq( UInteger.valueOf( model.id ) ) )
+							.execute();
 
-					try ( DSLContext db = dslContext( req ) )
-					{
-						final int mod = db.delete( CUSTOMER )
-								.where( CUSTOMER.ID.eq( UInteger.valueOf( model.id ) ) )
-								.execute();
-
-						return mod < 1 ? OpsHttp.notFound() : OpsHttp.ok();
-					}
-				} );
+					return mod < 1 ? OpsHttp.notFound() : OpsHttp.ok();
+				}
+			} );
+		} );
 		return app;
 	}
 }

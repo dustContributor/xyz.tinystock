@@ -6,7 +6,7 @@ import org.jooby.json.Jackson;
 import org.jooby.whoops.Whoops;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 
 /**
@@ -28,7 +28,7 @@ public class App extends Jooby
 				.doWith( m ->
 				{
 					// Use ISO date formats to handle java.sql.Date and friends.
-					m.setDateFormat( new ISO8601DateFormat() );
+					m.setDateFormat( new StdDateFormat() );
 					// Add JDK8 module to handle Optional fields.
 					m.registerModule( new Jdk8Module() );
 					/*

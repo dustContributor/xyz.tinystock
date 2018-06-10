@@ -40,37 +40,38 @@ public final class User
 		}
 	}
 
-	public static final Jooby register ( Jooby dest )
+	public static final Jooby register ( Jooby app )
 	{
-		dest.use( "api/user" )
-				.post( req ->
+		app.path( "api/user", () ->
+		{
+			app.post( req ->
+			{
+				String name = req.param( "name" ).value();
+				String pass = req.param( "pass" ).value();
+
+				name = StringUtils.trim( name );
+				pass = StringUtils.trim( pass );
+
+				if ( StringUtils.isBlank( name )
+						|| StringUtils.isBlank( pass )
+						|| pass.length() != OpsAuth.EXPECTED_PASSWORD_LENGTH )
 				{
-					String name = req.param( "name" ).value();
-					String pass = req.param( "pass" ).value();
+					return badRequest();
+				}
 
-					name = StringUtils.trim( name );
-					pass = StringUtils.trim( pass );
+				try ( DSLContext db = dslContext( req ) )
+				{
+					final byte[] salt = OpsAuth.makeSalt();
+					final byte[] saltedPass = OpsAuth.saltPass( pass, salt );
 
-					if ( StringUtils.isBlank( name )
-							|| StringUtils.isBlank( pass )
-							|| pass.length() != OpsAuth.EXPECTED_PASSWORD_LENGTH )
-					{
-						return badRequest();
-					}
+					final int mod = db.insertInto( USER, USER.NAME, USER.PASS, USER.SALT )
+							.values( name, saltedPass, salt )
+							.execute();
 
-					try ( DSLContext db = dslContext( req ) )
-					{
-						final byte[] salt = OpsAuth.makeSalt();
-						final byte[] saltedPass = OpsAuth.saltPass( pass, salt );
-
-						final int mod = db.insertInto( USER, USER.NAME, USER.PASS, USER.SALT )
-								.values( name, saltedPass, salt )
-								.execute();
-
-						return mod == 1 ? ok() : badRequest();
-					}
-				} );
-
-		return dest;
+					return mod == 1 ? ok() : badRequest();
+				}
+			} );
+		} );
+		return app;
 	}
 }
