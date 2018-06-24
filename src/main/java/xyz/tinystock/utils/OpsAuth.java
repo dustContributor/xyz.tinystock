@@ -1,6 +1,8 @@
 package xyz.tinystock.utils;
 
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -12,14 +14,31 @@ public final class OpsAuth
 	 * create.
 	 */
 	private static final ThreadLocal<SecureRandom> RAND = ThreadLocal.withInitial( SecureRandom::new );
-
-	private static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
-	private static final int SALT_BYTE_SIZE = 24;
-	private static final int HASH_BYTE_SIZE = 24;
-	private static final int HASH_BIT_SIZE = HASH_BYTE_SIZE * 8;
-	private static final int PBKDF2_ITERATIONS = 64000;
+	/*
+	 * Use an algorithm that is designed to scale in complexity, instead of a
+	 * "fast" MD5 or SHA1.
+	 */
+	private static final String ALGORITHM_NAME = "PBKDF2WithHmacSHA1";
+	private static final int ALGORITHM_ITERATIONS = 1024 * 32;
+	private static final int KEY_BYTE_LENGTH = 24;
+	private static final int SALT_BYTE_LENGTH = KEY_BYTE_LENGTH;
+	private static final int KEY_BIT_LENGTH = KEY_BYTE_LENGTH * 8;
 
 	public static final int EXPECTED_PASSWORD_LENGTH = 40;
+
+	private static final SecretKeyFactory SECRET_KEY_FACTORY;
+
+	static
+	{
+		try
+		{
+			SECRET_KEY_FACTORY = SecretKeyFactory.getInstance( ALGORITHM_NAME );
+		}
+		catch ( NoSuchAlgorithmException e )
+		{
+			throw new RuntimeException( e );
+		}
+	}
 
 	private OpsAuth ()
 	{
@@ -33,7 +52,7 @@ public final class OpsAuth
 
 	public static final byte[] makeSalt ()
 	{
-		byte[] salt = new byte[SALT_BYTE_SIZE];
+		byte[] salt = new byte[SALT_BYTE_LENGTH];
 		RAND.get().nextBytes( salt );
 		return salt;
 	}
@@ -45,13 +64,12 @@ public final class OpsAuth
 
 	private static final byte[] hash ( char[] password, byte[] salt )
 	{
+		final PBEKeySpec spec = new PBEKeySpec( password, salt, ALGORITHM_ITERATIONS, KEY_BIT_LENGTH );
 		try
 		{
-			final PBEKeySpec spec = new PBEKeySpec( password, salt, PBKDF2_ITERATIONS, HASH_BIT_SIZE );
-			final SecretKeyFactory skf = SecretKeyFactory.getInstance( PBKDF2_ALGORITHM );
-			return skf.generateSecret( spec ).getEncoded();
+			return SECRET_KEY_FACTORY.generateSecret( spec ).getEncoded();
 		}
-		catch ( Exception e )
+		catch ( InvalidKeySpecException e )
 		{
 			throw new RuntimeException( e );
 		}
