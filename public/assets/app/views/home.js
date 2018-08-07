@@ -3,7 +3,7 @@ App.views.define(() => {
     const els = App.utils.selectors.fromIds(pars)
 
     const hideAllBut = (uid, ids) => {
-      for (let item of ids) {
+      for (const item of ids) {
         if (item !== uid) {
           $("#" + item).hide()
         }
