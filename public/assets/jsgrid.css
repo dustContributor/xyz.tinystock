@@ -1,7 +1,54 @@
 /* JSGRID STYLE FIXES */
 
-.jsgrid {
+/* .jsgrid {
   border: none;
+  display: flex;
+  flex-direction: column;
+  height: 100%!important;
+  width: 100%!important;
+} */
+
+.jsgrid {
+  width: unset !important;
+}
+
+.jsgrid, .jsgrid>div, .jsgrid table, .jsgrid tbody, .jsgrid tr, .jsgrid th {
+  display: flex;
+  flex: 1;
+}
+
+.jsgrid, .jsgrid tbody {
+  flex-flow: column nowrap;
+}
+
+.jsgrid .jsgrid-row, .jsgrid .jsgrid-alt-row {
+  flex-flow: row nowrap;
+  flex: 0 0 auto;
+}
+
+.jsgrid tbody {
+  /* Force the header to have a scrollbar 
+  * just like the content, to account for the 
+  * space taken by it. 
+  */
+  overflow-y: scroll;
+  flex: 1 0 auto;
+}
+
+.jsgrid>div.jsgrid-grid-header {
+  flex: 1 0 auto;
+}
+
+.jsgrid th, .jsgrid td {
+  flex: 1;
+  width: unset!important;
+}
+
+.jsgrid .jsgrid-cell, .jsgrid .jsgrid-header-cell {
+  padding: 0.35em;
+  margin: 0.1em;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .jsgrid-selected-row>.jsgrid-cell {
@@ -9,8 +56,33 @@
   color: white;
 }
 
+.jsgrid .jsgrid-cell {
+  border-left: 1px solid #ffece1;
+}
+
+.jsgrid .jsgrid-cell:first-child {
+  border-left: none;
+}
+
 /* Remove gray border on the bottom of all grids. */
 
-.jsgrid tr:last-child td {
+/* .jsgrid tr:last-child td {
   border-bottom: none;
+} */
+
+/* Add some space in control buttons */
+
+.jsgrid-control-field .k-button {
+  margin: 2px;
 }
+
+/* .jsgrid-cell {
+  overflow: hidden;
+}
+
+/* Remove padding so input boxes dont go outside their cells */
+
+/* .jsgrid-insert-row input,
+.jsgrid-filter-row input {
+  padding: 0;
+} */

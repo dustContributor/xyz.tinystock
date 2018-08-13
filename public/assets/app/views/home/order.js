@@ -10,7 +10,6 @@ App.views.define(() => {
       autoload: true,
       editing: true,
       filtering: false,
-      width: "100%",
       // css: "",
       //headercss: "k-grid-header",
       controller: App.utils.jsGrid.toController(App.urls.api.order),
