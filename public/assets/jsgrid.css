@@ -8,12 +8,19 @@
 .jsgrid, .jsgrid>div, .jsgrid table, .jsgrid tbody, .jsgrid tr, .jsgrid th {
   /* Pretty much everything inside the grid is flex by default. */
   display: flex;
-  flex: 1;
+  /* Everything is in columns until we reach the cells themselves. */
+  flex-flow: column nowrap;
 }
 
-.jsgrid, .jsgrid tbody {
-  /* Grid rows in column form */
+.jsgrid, .jsgrid .jsgrid-grid-body, .jsgrid .jsgrid-grid-header, .jsgrid table, .jsgrid tbody {
+  /* Everything is in columns until we reach the cells themselves. */
   flex-flow: column nowrap;
+}
+
+.jsgrid tr, .jsgrid th {
+  /* Let rows, header and table fill the width. */
+  flex: 1;
+  flex-flow: row wrap;
 }
 
 .jsgrid .jsgrid-row, .jsgrid .jsgrid-alt-row, .jsgrid .jsgrid-edit-row {
@@ -23,16 +30,22 @@
 }
 
 .jsgrid tbody {
-  /* Force the header to have a scrollbar just like the 
-  * content, to account for the space taken by it. 
+  /* Force the header to have a scrollbar just like the
+  * content, to account for the space taken by it.
   */
   overflow-y: scroll;
+}
+
+.jsgrid-grid-header, .jsgrid-grid-header>table, .jsgrid-grid-header>table>tbody {
+  /* Prevent header from shrinking. */
   flex: 1 0 auto;
 }
 
-.jsgrid>div.jsgrid-grid-header {
-  /* Prevent header from shrinking. */
-  flex: 1 0 auto;
+.jsgrid-grid-header {
+  /* Too small by default, tie it to the font size. */
+  height: 1.5em;
+  min-height: 1.5em;
+  max-height: 1.5em;
 }
 
 .jsgrid .jsgrid-cell, .jsgrid .jsgrid-header-cell {
@@ -46,7 +59,7 @@
   /* This doesn't really works on flex elements -_- */
   text-overflow: ellipsis;
   min-width: 0;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   overflow: hidden;
 }
 
@@ -54,6 +67,17 @@
   /* Hovered row */
   background: #f35800;
   color: white;
+}
+
+tr.jsgrid-header-row {
+  /* Firefox uses the native styled widget for the scrollbar, so
+  * it shows the row 106px tall on a GTK theme for example, force it
+  * to be smaller.
+  */
+  flex: 0 0 auto;
+  height: 1.5em;
+  /* Add separator between the header and the grid's content. */
+  border-bottom: 1px solid #ffece1;
 }
 
 .jsgrid .jsgrid-cell, .jsgrid .jsgrid-header-cell {
@@ -69,4 +93,8 @@
 .jsgrid .jsgrid-cell .k-button, .jsgrid .jsgrid-header-cell .k-button {
   /* Add some space in control buttons */
   margin: 0.1em;
+}
+
+.jsgrid-edit-row>td>input {
+  width: 100%;
 }
