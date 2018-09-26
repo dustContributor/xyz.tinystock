@@ -81,7 +81,7 @@ public final class Order
 		public long id;
 	}
 
-	private static List<Get> getById ( Request req, final long id, final long idCustomer )
+	private static List<Get> getById ( Request req, final long id, final long customerId )
 	{
 		try ( DSLContext db = dslContext( req ) )
 		{
@@ -89,7 +89,7 @@ public final class Order
 					.selectFrom( ORDER )
 					// If id is valid, try fetch one by id, otherwise return all.
 					.where( id > 0 ? ORDER.ID.eq( UInteger.valueOf( id ) ) : DSL.trueCondition() )
-					.and( idCustomer > 0 ? ORDER.ID_CUSTOMER.eq( UInteger.valueOf( idCustomer ) ) : DSL.trueCondition() )
+					.and( customerId > 0 ? ORDER.ID_CUSTOMER.eq( UInteger.valueOf( customerId ) ) : DSL.trueCondition() )
 					.fetch()
 					.map( Get::new );
 		}
@@ -106,11 +106,9 @@ public final class Order
 		{
 			app.get( req ->
 			{
-				return getById( req, req.param( "id" ).longValue( 0 ), 0 );
-			} );
-			app.get( "/bycustomer", req ->
-			{
-				return getById( req, 0, req.param( "id" ).longValue( 0 ) );
+				var id = req.param( "id" ).longValue( 0 );
+				var customerId = req.param( "customerId" ).longValue( 0 );
+				return getById( req, id, customerId );
 			} );
 			app.delete( req ->
 			{
